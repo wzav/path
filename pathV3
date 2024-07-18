@@ -1,0 +1,101 @@
+class Node{constructor(e,t,i,s,n=null){this.x=e,this.y=t,this.g=i,this.h=s,this.f=i+s,this.parent=n}}function heuristic(e,t){return Math.abs(e.x-t.x)+Math.abs(e.y-t.y)}class PriorityQueue{constructor(){this.items=[]}enqueue(e){this.items.push(e),this.items.sort(((e,t)=>e.f-t.f))}dequeue(){return this.items.shift()}isEmpty(){return 0===this.items.length}}function findPath(e,t,i,s){let n=new PriorityQueue,r=new Set;for(n.enqueue(new Node(e.x,e.y,0,heuristic(e,t)));!n.isEmpty();){let e=n.dequeue();if(e.x===t.x&&e.y===t.y){let t=[];for(;e;)t.push({x:e.x,y:e.y}),e=e.parent;return t.reverse()}r.add(`${e.x},${e.y}`);const u=[{x:-1,y:0},{x:1,y:0},{x:0,y:-1},{x:0,y:1},{x:-1,y:-1},{x:-1,y:1},{x:1,y:-1},{x:1,y:1}];for(let h of u){let u=e.x+h.x,y=e.y+h.y;if(u<0||u>=i.width||y<0||y>=i.height)continue;if(r.has(`${u},${y}`))continue;if(s.has(`${u},${y}`))continue;let o=e.g+1,x=heuristic({x:u,y:y},t),f=new Node(u,y,o,x,e),c=n.items.find((e=>e.x===u&&e.y===y));(!c||o<c.g)&&n.enqueue(f)}}return[]}function expandAvoidList(e,t){let i=new Set;return e.forEach((e=>{for(let s=-1;s<=1;s++)for(let n=-1;n<=1;n++){let r=e.x+s,u=e.y+n;r>=0&&r<t.width&&u>=0&&u<t.height&&i.add(`${r},${u}`)}})),i}
+
+/*
+class Node {
+    constructor(x, y, g, h, parent = null) {
+        this.x = x;
+        this.y = y;
+        this.g = g;
+        this.h = h;
+        this.f = g + h;
+        this.parent = parent;
+    }
+}
+
+function heuristic(a, b) {
+    return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+}
+
+class PriorityQueue {
+    constructor() {
+        this.items = [];
+    }
+
+    enqueue(node) {
+        this.items.push(node);
+        this.items.sort((a, b) => a.f - b.f);
+    }
+
+    dequeue() {
+        return this.items.shift();
+    }
+
+    isEmpty() {
+        return this.items.length === 0;
+    }
+}
+
+function findPath(start, end, grid, avoid) {
+    let openList = new PriorityQueue();
+    let closedList = new Set();
+    openList.enqueue(new Node(start.x, start.y, 0, heuristic(start, end)));
+
+    while (!openList.isEmpty()) {
+        let currentNode = openList.dequeue();
+
+        if (currentNode.x === end.x && currentNode.y === end.y) {
+            let path = [];
+            while (currentNode) {
+                path.push({ x: currentNode.x, y: currentNode.y });
+                currentNode = currentNode.parent;
+            }
+            return path.reverse();
+        }
+
+        closedList.add(`${currentNode.x},${currentNode.y}`);
+
+        const neighbors = [
+            { x: -1, y: 0 }, { x: 1, y: 0 }, { x: 0, y: -1 }, { x: 0, y: 1 },
+            { x: -1, y: -1 }, { x: -1, y: 1 }, { x: 1, y: -1 }, { x: 1, y: 1 }
+        ];
+
+        for (let neighbor of neighbors) {
+            let nx = currentNode.x + neighbor.x;
+            let ny = currentNode.y + neighbor.y;
+
+            if (nx < 0 || nx >= grid.width || ny < 0 || ny >= grid.height) continue;
+            if (closedList.has(`${nx},${ny}`)) continue;
+            if (avoid.has(`${nx},${ny}`)) continue;
+
+            let g = currentNode.g + 1;
+            let h = heuristic({ x: nx, y: ny }, end);
+            let node = new Node(nx, ny, g, h, currentNode);
+
+            let existingNode = openList.items.find(node => node.x === nx && node.y === ny);
+            if (!existingNode || g < existingNode.g) {
+                openList.enqueue(node);
+            }
+        }
+    }
+    return [];
+}
+function expandAvoidList(avoid, grid) {
+    let expandedAvoid = new Set();
+    let buffer = 1;
+
+    avoid.forEach(coord => {
+        for (let dx = -buffer; dx <= buffer; dx++) {
+            for (let dy = -buffer; dy <= buffer; dy++) {
+                let nx = coord.x + dx;
+                let ny = coord.y + dy;
+                if (nx >= 0 && nx < grid.width && ny >= 0 && ny < grid.height) {
+                    expandedAvoid.add(`${nx},${ny}`);
+                }
+            }
+        }
+    });
+
+    return expandedAvoid;
+}
+
+*/
