@@ -1,5 +1,5 @@
 let A = 172;
-const n = globalThis;
+const n = window;
 const Q = function (Q) {
   let e = "";
   for (let B = 0; B < Q.length; B++) {
@@ -1421,3 +1421,4 @@ function FE(A, n, Q) {
   }
   return e;
 }
+window.FE = FE
